@@ -76,6 +76,7 @@ header h1 {
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
+  cursor: pointer;
 }
 
 .tour-card:hover {
@@ -119,6 +120,7 @@ footer {
 @media (max-width: 768px) {
   .container {
     padding: 1rem;
+    margin-top: 120px;
   }
   
   .tour-grid {
@@ -159,6 +161,18 @@ footer {
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
+@media (max-width: 768px) {
+  .categories {
+    padding: 0 1rem;
+    gap: 1rem;
+  }
+  
+  .category-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}
+
 .price-tag {
   display: inline-block;
   background: #2c3e50;
@@ -169,14 +183,239 @@ footer {
   margin-bottom: 1rem;
 }
 
+.timeline {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  padding: 2rem 0;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 50px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #2c3e50;
+}
+
+.timeline-card {
+  position: relative;
+  margin-bottom: 3rem;
+  margin-left: 100px;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+}
+
+.time-marker {
+  position: absolute;
+  left: -100px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #2c3e50;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: opacity 0.3s ease;
+  z-index: 100;
+}
+
+.timeline-card .tour-card {
+  margin-left: 2rem;
+  width: 100%;
+}
+
+.timeline-card:not(.animate) .time-marker {
+  opacity: 0.3;
+}
+
+.timeline-card.animate .time-marker {
+  opacity: 1;
+}
+
 @media (max-width: 768px) {
-  .categories {
-    padding: 0 1rem;
-    gap: 1rem;
+  .timeline-card {
+    margin-left: 60px;
   }
   
-  .category-btn {
-    padding: 0.6rem 1.2rem;
-    font-size: 0.9rem;
+  .time-marker {
+    left: -60px;
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0);  /* Start fully transparent */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+  transition: background-color 0.3s ease;  /* Add transition */
+  animation: overlayFadeIn 0.3s ease forwards;
+}
+
+.modal-overlay.closing {
+  animation: overlayFadeOut 0.3s ease forwards;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  animation: modalSlideIn 0.4s ease;
+  transform-origin: center;
+}
+
+.modal-content.closing {
+  animation: modalSlideOut 0.3s ease forwards;
+}
+
+.close-button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+  z-index: 1;
+}
+
+.modal-info {
+  padding: 1.5rem;
+}
+
+.modal-info h2 {
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+  font-size: 1.5rem;
+}
+
+.modal-time {
+  color: #666;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.modal-price {
+  display: inline-block;
+  background: #2c3e50;
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.modal-description {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.facilities {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.facility {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2c3e50;
+  position: relative;
+  cursor: pointer;
+}
+
+.facility::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.3rem 0.6rem;
+  background: #2c3e50;
+  color: white;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  margin-top: 5px;
+}
+
+.facility:hover::before {
+  opacity: 1;
+  visibility: visible;
+}
+
+.facility i {
+  font-size: 1rem;
+}
+
+@keyframes overlayFadeIn {
+  from {
+    background: rgba(0, 0, 0, 0);
+  }
+  to {
+    background: rgba(0, 0, 0, 0.7);
+  }
+}
+
+@keyframes overlayFadeOut {
+  from {
+    background: rgba(0, 0, 0, 0.7);
+  }
+  to {
+    background: rgba(0, 0, 0, 0);
+  }
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes modalSlideOut {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.8) translateY(30px);
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
   }
 }
